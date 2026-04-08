@@ -21,9 +21,8 @@ class MessageBubble(ft.Row):
         else:
             self.text_view = ft.Markdown(text, selectable=True, extension_set=ft.MarkdownExtensionSet.GITHUB_WEB)
             
-            def copy_clicked(e):
-                import subprocess
-                subprocess.run("clip", text=True, input=self.text_view.value.strip())
+            async def copy_clicked(e):
+                await ft.Clipboard().set(self.text_view.value.strip())
                 copy_button.icon = ft.Icons.CHECK
                 copy_button.icon_color = ft.Colors.GREEN
                 copy_button.tooltip = "已複製！"
@@ -55,7 +54,7 @@ class MessageBubble(ft.Row):
         self.vertical_alignment = ft.CrossAxisAlignment.START
 
 def main(page: ft.Page):
-    page.title = "CallGemma 4 - v1.0"
+    page.title = "CallGemma 4 - v1.0.2"
     page.theme_mode = ft.ThemeMode.DARK
     page.window_width = 900
     page.window_height = 800
@@ -146,11 +145,11 @@ def main(page: ft.Page):
         ft.Container(
             content=chat_view, 
             expand=True, 
-            border=ft.border.all(1, "outline"), 
+            border=ft.Border.all(1, "outline"), 
             border_radius=15,
             bgcolor="background"
         ),
         input_row
     )
 
-ft.app(main)
+ft.run(main)
